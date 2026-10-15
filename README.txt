@@ -1,12 +1,17 @@
-CAGE LEGENDS MULTIPLAYER PROTOTYPE
-Files: index.html (iPad host), controller.html (phone controller), host.js, controller.js, config.js.
+CAGE LEGENDS — updated arena build
 
-ONE-TIME SETUP
-1. In config.js replace PASTE_YOUR_SB_PUBLISHABLE_KEY_HERE with your Supabase publishable key (the public sb_publishable key, not a secret/service_role key).
-2. Upload ALL files to the root of your existing GitHub Pages repository and commit.
-3. On iPad open your GitHub Pages URL ending in / (index.html). Tap CREATE MULTIPLAYER ROOM. A 5-character room code appears.
-4. On phone open the same GitHub Pages domain plus /controller.html, e.g. https://YOURNAME.github.io/YOURREPO/controller.html
-5. Enter the room code and tap CONNECT. Phone buttons send actions to the iPad.
+Upload/replace all files in the ZIP in the ROOT of your existing GitHub Pages repository, then Commit changes. Keep config.js and its current Supabase project key intact.
 
-Supabase Realtime Broadcast is used; no database table or service_role key is required. Do not publish any secret key.
-This is an early prototype. It needs testing on your devices; connection latency and free-tier limits may vary. The AI opponent is still on the iPad.
+Files: index.html (iPad/host), controller.html (phone controls), host.js (fight), controller.js (phone input), config.js (Supabase config), arena.png (arena artwork cropped from the supplied concept sheet).
+
+New in this build:
+- Player and opponent name fields; names are shown over fighters.
+- Clear LEFT HAND BLOCK hold button on the phone controller.
+- Critical hits cause a short burst of red blood particles, plus stronger screen shake and stun.
+- Smoother, more detailed drawn fighters and a cropped arena image based on the supplied artwork.
+- Existing room/multiplayer setup and fighter selection retained.
+
+Controller URL for player 1: https://YOUR-GITHUB-PAGES-URL/controller.html
+Player 2 for VS HUMAN: https://YOUR-GITHUB-PAGES-URL/controller.html?player=2
+
+This remains a browser-game prototype. The uploaded image was a labeled concept collage, not a clean transparent animation atlas, so the arena art is used as the backdrop while fighters are currently drawn in code; clean individual transparent animation frames can be integrated when available.
