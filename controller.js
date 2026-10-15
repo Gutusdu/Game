@@ -57,3 +57,5 @@ joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joy.set
 joy.addEventListener('pointermove',e=>{if(joyActive){e.preventDefault();moveJoy(e)}});
 joy.addEventListener('pointerup',e=>{e.preventDefault();stopJoy()});
 joy.addEventListener('pointercancel',stopJoy);
+
+document.addEventListener('visibilitychange',()=>{if(document.hidden){send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});}});
