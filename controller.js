@@ -29,6 +29,7 @@ async function connectRoom(){
  if(channel){try{await client.removeChannel(channel)}catch(e){} channel=null}
  connected=false;setStatus('CONNECTING…');
  channel=client.channel('cage-room-'+room);
+ channel.on('broadcast',{event:'fighterInfo'},({payload})=>{if(!payload||payload.player!==player)return;const card=document.getElementById('fighterCard');const name=document.getElementById('fighterName');const rec=document.getElementById('fighterRecord');const corner=document.getElementById('fighterCorner');if(name)name.textContent=payload.name||('PLAYER '+player);if(rec)rec.innerHTML='<span>'+Number(payload.wins||0)+'</span> - <span>'+Number(payload.losses||0)+'</span> - <span>'+Number(payload.draws||0)+'</span>';if(corner){corner.textContent=player===1?'RED CORNER':'BLUE CORNER';corner.style.color=player===1?'#ff6675':'#73b8ff';}if(card)card.style.display='flex';});
  channel.on('broadcast',{event:'ko'},({payload})=>{if(payload&&payload.player===player)showKO(payload)});
  channel.on('broadcast',{event:'submission'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player))showSubmission(payload)});
  channel.on('broadcast',{event:'submissionEnd'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player))hideSubmission(payload)});
@@ -49,7 +50,7 @@ function actionUp(a){
 }
 ['jab','hook','upper','highkick','lowkick','ground','blockHigh','blockLow'].forEach(id=>{
  const el=document.getElementById(id),a=({upper:'uppercut',highkick:'highKick',lowkick:'lowKick',blockHigh:'blockHigh',blockLow:'blockLow'})[id]||id;
- el.addEventListener('pointerdown',e=>{e.preventDefault();el.setPointerCapture?.(e.pointerId);el.classList.add('active');actionDown(a)});
+ el.addEventListener('pointerdown',e=>{e.preventDefault();el.classList.add('active');actionDown(a)});
  const release=e=>{e.preventDefault();el.classList.remove('active');actionUp(a)};
  el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);
 });
@@ -63,11 +64,12 @@ function moveJoy(e){
  send({type:'move',x:lastX,y:lastY});
 }
 function stopJoy(){joyActive=false;nub.style.transform='';lastX=lastY=0;send({type:'move',x:0,y:0})}
-joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joyPointer=e.pointerId;try{joy.setPointerCapture(e.pointerId)}catch(_){}moveJoy(e)});
-joy.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}});
-joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefault();stopJoy();joyPointer=null}});
-joy.addEventListener('pointercancel',()=>{stopJoy();joyPointer=null});
-joy.addEventListener('lostpointercapture',()=>{if(joyActive){stopJoy();joyPointer=null}});
+joy.addEventListener('pointerdown',e=>{e.preventDefault();if(joyActive)return;joyActive=true;joyPointer=e.pointerId;moveJoy(e)});
+// Track the joystick pointer globally instead of capturing it. This keeps independent
+// fingers free to press punch/block buttons while the movement finger stays down.
+document.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}},{passive:false});
+document.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefault();stopJoy();joyPointer=null}},{passive:false});
+document.addEventListener('pointercancel',e=>{if(e.pointerId===joyPointer){stopJoy();joyPointer=null}});
 
 document.getElementById('koTarget').addEventListener('pointerdown',e=>{e.preventDefault();tapKO()});document.getElementById('submissionButton').addEventListener('pointerdown',e=>{e.preventDefault();if(submissionState&&submissionState.active)send({type:'submitTap'});});
 window.addEventListener('blur',()=>{send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});});
