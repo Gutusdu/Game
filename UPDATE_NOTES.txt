@@ -1,6 +1,11 @@
-CAGE LEGENDS update
-- Normal damage percentages: Jab 2, Hook 3.5, Uppercut 4, High Kick 7, Low Kick 4, Ground Attack 3.
-- Critical damage multiplier reduced to 1.5x; critical chance growth reduced and capped at 55%.
-- Early knockdowns reduced. Existing low-kick condition at very low body health remains.
-- Fight clock: 3 rounds x 3 minutes, with 3-second breaks. Decision at end of round 3 based on remaining head+body health.
-Upload/replace the repository files from this ZIP. Test on desktop and phone.
+CAGE LEGENDS — KO / CAREER / ROUND SCORING UPDATE
+
+- Knockdowns now start only after significant regional health loss: jab uses a 40% damage threshold, other strikes 30%.
+- Knockdown probability rises linearly and is capped at 60% by 90% regional damage. Attack types add small weighting but cannot exceed 60%.
+- Added saved-fighter dropdown and W-L-D career ranking using browser localStorage on the host device.
+- Fight records update once on decision, KO, or submission end.
+- Automatic round scoring compares remaining head/body health plus a small stamina component. Final decision uses round wins after three 3-minute rounds.
+- Submission fighters are drawn in a grounded pose during the submission and play the get-up animation when escaping.
+
+Persistence note: career records are stored in localStorage on the host browser/device, not shared across different host devices/browsers. Shared cross-device leaderboards require a Supabase database table and policies.
+- JavaScript syntax checked with Node.js. Not tested in a live two-controller fight session.
