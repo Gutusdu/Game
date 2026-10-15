@@ -15,3 +15,9 @@ Controller URL for player 1: https://YOUR-GITHUB-PAGES-URL/controller.html
 Player 2 for VS HUMAN: https://YOUR-GITHUB-PAGES-URL/controller.html?player=2
 
 This remains a browser-game prototype. The uploaded image was a labeled concept collage, not a clean transparent animation atlas, so the arena art is used as the backdrop while fighters are currently drawn in code; clean individual transparent animation frames can be integrated when available.
+
+
+ATLAS UPDATE:
+Player 1 is always red; Player 2 is always blue.
+The fighter_red.png and fighter_blue.png files are now 4-frame-per-row sprite sheets using the supplied atlas idle/walk rows. The complete atlases are included as fighter_red_atlas.png and fighter_blue_atlas.png for later attack/ground animation mapping.
+The full attack, block, hit, stun and ground sequences still need to be mapped to actions in a later pass.

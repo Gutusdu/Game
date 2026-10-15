@@ -48,7 +48,7 @@ function fighter(f,pl){
  if(f.stun>0||f.flash>0)col=3;
  ctx.save();ctx.translate(f.x,f.y+ (moving?Math.sin(animClock*12)*1.2:0));
  ctx.fillStyle='#0008';ctx.beginPath();ctx.ellipse(0,9,19,6,0,0,Math.PI*2);ctx.fill();
- if(img.complete&&img.naturalWidth){ctx.imageSmoothingEnabled=false;ctx.drawImage(img,col*44,row*44,44,44,-25,-44,50,50);}
+ if(img.complete&&img.naturalWidth){ctx.imageSmoothingEnabled=false;ctx.drawImage(img,col*80,row*90,80,90,-30,-76,60,76);}
  else {ctx.fillStyle=pl?'#c52232':'#1977df';ctx.fillRect(-12,-22,24,30);}
  ctx.restore();ctx.fillStyle='#f6f8fa';ctx.strokeStyle='#0b1015';ctx.lineWidth=3;ctx.font='900 12px system-ui';ctx.textAlign='center';ctx.strokeText(pl?playerName:enemyName,f.x,f.y-43);ctx.fillText(pl?playerName:enemyName,f.x,f.y-43);ctx.font='700 8px system-ui';ctx.fillStyle='#ff6875';ctx.fillText('HEAD '+Math.round(f.head||100),f.x,f.y-31);ctx.fillStyle='#f3b34f';ctx.fillText('BODY '+Math.round(f.body||100),f.x,f.y-22);
 }
