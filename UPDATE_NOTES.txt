@@ -1,11 +1,17 @@
-CAGE LEGENDS — KO / CAREER / ROUND SCORING UPDATE
+CAGE LEGENDS UPDATE — Multiplayer Names, Fight Stats & Cutscenes
 
-- Knockdowns now start only after significant regional health loss: jab uses a 40% damage threshold, other strikes 30%.
-- Knockdown probability rises linearly and is capped at 60% by 90% regional damage. Attack types add small weighting but cannot exceed 60%.
-- Added saved-fighter dropdown and W-L-D career ranking using browser localStorage on the host device.
-- Fight records update once on decision, KO, or submission end.
-- Automatic round scoring compares remaining head/body health plus a small stamina component. Final decision uses round wins after three 3-minute rounds.
-- Submission fighters are drawn in a grounded pose during the submission and play the get-up animation when escaping.
+Changes in this package:
+- VS HUMAN lobby now shows a separate PLAYER 2 NAME field instead of hiding the opponent name field.
+- VS AI still labels that field OPPONENT NAME and defaults to RIVAL AI.
+- Human-vs-human still requires both controller slots to connect before START FIGHT enables; player 2 uses controller.html?player=2.
+- Added a short arcade-style pre-fight face-off intro with fighter names and FIGHT title.
+- Added finish overlays for KO, submission and decision, followed by a post-fight statistics screen.
+- Fight statistics track attack attempts, landed strikes, blocks, knockdowns scored and submission attempts, plus remaining stamina and accuracy.
+- Career W-L-D ranking remains saved locally in the host browser/device.
+- KO timer finish now uses the shared finish flow, so career records and the result screen update.
 
-Persistence note: career records are stored in localStorage on the host browser/device, not shared across different host devices/browsers. Shared cross-device leaderboards require a Supabase database table and policies.
-- JavaScript syntax checked with Node.js. Not tested in a live two-controller fight session.
+Validation:
+- `node --check host.js` passed.
+- `node --check controller.js` passed.
+- Package structure and required files checked.
+- No live two-phone/Supabase session was available, so multiplayer runtime behavior still needs to be tested in the deployed site.
