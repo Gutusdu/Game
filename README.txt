@@ -1,14 +1,25 @@
-# Dein Überraschungs-Spiel
+CAGE LEGENDS — Retro MMA Career (Upgrade 2)
 
-## Auf dem iPhone veröffentlichen (kostenlos)
-1. Entpacke diese ZIP-Datei in der Dateien-App auf deinem iPad/iPhone.
-2. Öffne dein GitHub-Repository im Browser.
-3. Tippe auf **Add file → Upload files**.
-4. Lade alle enthaltenen Dateien hoch (index.html, manifest.json, sw.js, icon-192.png, icon-512.png). Falls die Dateien in einem Ordner liegen, lade die Dateien selbst hoch, nicht nur den Ordner.
-5. Tippe auf **Commit changes**.
-6. Im Repository: **Settings → Pages**.
-7. Bei **Build and deployment** wähle **Deploy from a branch**, Branch **main**, Ordner **/(root)**, dann **Save**.
-8. Warte kurz und öffne die unter **Settings → Pages** angezeigte Website in Safari.
-9. In Safari: **Teilen → Zum Home-Bildschirm**. Aktiviere bei Bedarf „Als Web-App öffnen“ und tippe auf **Hinzufügen**.
+ENTHALTEN
+- Retro-Pixelgrafik mit eigenem Canvas-Artwork (inspiriert von klassischen 8-/16-Bit-Sportspielen; keine kopierten Retro-Bowl-Grafiken).
+- Distanzkontrolle: rein, Distanz halten, raus; die Reichweite beeinflusst Trefferchancen.
+- Schlagkombinationen mit Bonus bei sauber aufeinanderfolgenden Treffern.
+- Fünf Gegner-Archetypen: Pressure Boxer, Counter Striker, Wrestling Machine, Submission Hunter und Kickboxer.
+- Knockdowns mit Ringrichter-Anzählen und Aufstehversuch.
+- Cuts und Verletzungen, die Gesundheit/Trefferchancen beeinflussen; Recovery im Gym reduziert Verletzungen.
+- Titelkämpfe mit Titelbonus und Champion-Status.
+- Training, Karriere, lokale Speicherung und iPhone-Home-Bildschirm-Unterstützung.
 
-Das Repository muss bei GitHub Free öffentlich sein, damit GitHub Pages kostenlos veröffentlicht. Die veröffentlichte Seite ist öffentlich erreichbar. Der Spielstand wird lokal auf dem Gerät gespeichert; er wird nicht zwischen Geräten synchronisiert.
+KOSTENLOS ONLINE STELLEN
+1. Entpacke die ZIP-Datei.
+2. Öffne dein GitHub-Repository.
+3. Add file > Upload files.
+4. Lade ALLE Dateien aus diesem Ordner hoch (index.html, manifest.json, sw.js, icon-192.png, icon-512.png, README.txt).
+5. Commit changes.
+6. Settings > Pages > Deploy from a branch > main > /(root) > Save.
+7. Öffne die angezeigte GitHub-Pages-Adresse in Safari. Share > Add to Home Screen.
+
+HINWEISE
+- Kostenlos mit einem öffentlichen GitHub-Free-Repository.
+- Der Spielstand liegt lokal im Browser auf deinem Gerät. Ein Browser-/Website-Daten-Reset kann ihn löschen.
+- Dies ist ein eigenständiger Retro-Pixelstil, keine 1:1-Kopie von Retro Bowl.
