@@ -17,12 +17,12 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
 #stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 12px 12px}
 #layout{position:relative;width:min(100%,1500px);height:100%;max-height:calc(100dvh - 88px);aspect-ratio:1728/864;display:flex;align-items:center;justify-content:center}
 #art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
-#fighterCard{position:absolute;left:50.5%;top:4%;width:22%;height:36%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;z-index:4;pointer-events:none;text-align:center;text-shadow:0 2px 4px #000;overflow:hidden;padding:5px 8px;border:1px solid #536675;border-radius:12px;background:linear-gradient(145deg,#111a23f2,#080c12f5);box-shadow:0 0 0 2px #070a0d,0 0 18px #000b,inset 0 0 22px #27374655}
-#fighterCorner{font-size:clamp(8px,1.25vw,15px);font-weight:1000;letter-spacing:2px;color:#ff6675;text-transform:uppercase;text-shadow:0 0 12px currentColor}
-#fighterName{max-width:100%;font-size:clamp(12px,2.15vw,27px);font-weight:1000;letter-spacing:1px;line-height:1.05;overflow-wrap:anywhere;color:#fff;text-transform:uppercase}
-#fighterRecord{font-size:clamp(10px,1.55vw,18px);font-weight:1000;letter-spacing:3px;color:#cbd5df;background:#02060ac9;border-radius:7px;padding:4px 8px;border:1px solid #35434e}
-#fighterRecord span{color:#ff6675}#fighterRecord span:nth-child(2){color:#fff}#fighterRecord span:nth-child(3){color:#ffd166}
-#fighterTag{font-size:clamp(6px,.8vw,10px);font-weight:900;letter-spacing:2px;color:#91a3b1;border-top:1px solid #536675;padding-top:3px;width:90%}
+#fighterCard{position:absolute;left:51%;top:5%;width:21%;height:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;z-index:4;pointer-events:none;text-align:center;text-shadow:0 2px 4px #000;overflow:hidden}
+#fighterCorner{font-size:clamp(8px,1.25vw,15px);font-weight:1000;letter-spacing:2px;color:#ff6675}
+#fighterName{max-width:100%;font-size:clamp(12px,2.15vw,27px);font-weight:1000;letter-spacing:1px;line-height:1.05;overflow-wrap:anywhere;color:#fff}
+#fighterRecord{font-size:clamp(9px,1.35vw,16px);font-weight:900;letter-spacing:2px;color:#cbd5df}
+#fighterRecord span{color:#ff6675}
+#fighterTag{font-size:clamp(6px,.8vw,10px);font-weight:800;letter-spacing:2px;color:#91a3b1}
 .hit{position:absolute;display:block;border:0;background:transparent;border-radius:50%;padding:0;touch-action:none;-webkit-tap-highlight-color:transparent}
  .hit:active{background:#ffffff10;outline:2px solid #ffffff20;outline-offset:-5px}
 /* Touch-Zonen liegen exakt über den Symbolen in controller_art.png (1728x864). */
@@ -80,7 +80,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
   <button class="hit" id="blockLow" aria-label="Block low"></button>
   <div class="hit" id="joy" aria-label="Movement joystick"><div id="nub"></div></div>
  </div></main>
- <div id="statusline">Hold HIGH/LOW BLOCK while moving or attacking · Landscape recommended</div>
+ <div id="statusline">Hold block to guard · Landscape recommended</div>
 </div>
 <div id="koGame" style="display:none;position:fixed;inset:0;z-index:99;background:radial-gradient(circle,#3b1018f5,#080b0ff8);align-items:center;justify-content:center;flex-direction:column;touch-action:manipulation"><div style="font-weight:1000;font-size:clamp(22px,5vw,42px);color:#ff6474;letter-spacing:2px">GET BACK UP!</div><div id="koCount" style="font-size:clamp(18px,4vw,28px);font-weight:900;margin:8px">0 / 10</div><div style="color:#ddd;font-size:12px;margin-bottom:8px">TAP THE BUTTON BEFORE IT MOVES</div><button id="koTarget" style="position:absolute;left:40%;top:45%;width:clamp(90px,20vw,150px);height:clamp(90px,20vw,150px);border-radius:50%;border:4px solid #fff;background:linear-gradient(#ff5968,#a00d24);color:white;font-size:20px;font-weight:1000;box-shadow:0 0 25px #ff354f;touch-action:manipulation">TAP!</button></div>
 <div id="submissionGame" style="display:none;position:fixed;inset:0;z-index:100;background:radial-gradient(circle,#16384bf5,#05090ff8);align-items:center;justify-content:center;flex-direction:column;touch-action:manipulation;text-align:center;padding:18px"><div id="submissionTitle" style="font-weight:1000;font-size:clamp(22px,5vw,42px);color:#ffd166;letter-spacing:1px">ESCAPE! TAP FAST!</div><div id="submissionRole" style="font-size:13px;color:#d6e5ed;font-weight:900;margin:8px">YOU ARE DEFENDING</div><div style="font-size:12px;color:#a8c4d2;margin:4px 0 20px">FIRST TO 60 WINS · DEFENDER STARTS AT 20</div><button id="submissionButton" style="width:min(48vw,260px);height:min(48vw,260px);border-radius:50%;border:7px solid #fff;background:radial-gradient(circle at 35% 25%,#ffe58a,#d78a00 60%,#6b3400);color:#111;font-size:clamp(28px,6vw,54px);font-weight:1000;box-shadow:0 0 35px #ffc83d99;touch-action:manipulation;user-select:none;-webkit-user-select:none">TAP!</button><div style="margin-top:20px;color:#fff;font-weight:900;font-size:12px">TAP THE BUTTON AS FAST AS YOU CAN</div></div>

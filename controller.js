@@ -50,7 +50,7 @@ function actionUp(a){
 }
 ['jab','hook','upper','highkick','lowkick','ground','blockHigh','blockLow'].forEach(id=>{
  const el=document.getElementById(id),a=({upper:'uppercut',highkick:'highKick',lowkick:'lowKick',blockHigh:'blockHigh',blockLow:'blockLow'})[id]||id;
- el.addEventListener('pointerdown',e=>{e.preventDefault();el.classList.add('active');actionDown(a)});
+ el.addEventListener('pointerdown',e=>{e.preventDefault();el.setPointerCapture?.(e.pointerId);el.classList.add('active');actionDown(a)});
  const release=e=>{e.preventDefault();el.classList.remove('active');actionUp(a)};
  el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);
 });
@@ -64,12 +64,11 @@ function moveJoy(e){
  send({type:'move',x:lastX,y:lastY});
 }
 function stopJoy(){joyActive=false;nub.style.transform='';lastX=lastY=0;send({type:'move',x:0,y:0})}
-joy.addEventListener('pointerdown',e=>{e.preventDefault();if(joyActive)return;joyActive=true;joyPointer=e.pointerId;moveJoy(e)});
-// Track the joystick pointer globally instead of capturing it. This keeps independent
-// fingers free to press punch/block buttons while the movement finger stays down.
-document.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}},{passive:false});
-document.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefault();stopJoy();joyPointer=null}},{passive:false});
-document.addEventListener('pointercancel',e=>{if(e.pointerId===joyPointer){stopJoy();joyPointer=null}});
+joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joyPointer=e.pointerId;try{joy.setPointerCapture(e.pointerId)}catch(_){}moveJoy(e)});
+joy.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}});
+joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefault();stopJoy();joyPointer=null}});
+joy.addEventListener('pointercancel',()=>{stopJoy();joyPointer=null});
+joy.addEventListener('lostpointercapture',()=>{if(joyActive){stopJoy();joyPointer=null}});
 
 document.getElementById('koTarget').addEventListener('pointerdown',e=>{e.preventDefault();tapKO()});document.getElementById('submissionButton').addEventListener('pointerdown',e=>{e.preventDefault();if(submissionState&&submissionState.active)send({type:'submitTap'});});
 window.addEventListener('blur',()=>{send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});});
