@@ -1,0 +1,35 @@
+{
+  "red": {
+    "idle": 4,
+    "jab": 5,
+    "hook": 5,
+    "uppercut": 5,
+    "highkick": 5,
+    "lowkick": 5,
+    "blockhigh": 4,
+    "blocklow": 4,
+    "walkdown": 4,
+    "walkup": 4,
+    "walkleft": 4,
+    "walkright": 4,
+    "ko": 6,
+    "getup": 6
+  },
+  "blue": {
+    "idle": 4,
+    "walkdown": 4,
+    "walkup": 4,
+    "walkleft": 4,
+    "walkright": 4,
+    "jab": 5,
+    "hook": 5,
+    "uppercut": 5,
+    "highkick": 5,
+    "lowkick": 5,
+    "blockhigh": 4,
+    "blocklow": 4,
+    "ko": 6,
+    "getup": 6
+  },
+  "notes": "Frames extracted from the individual animation strips supplied by the user. Player 1 red, player 2 blue."
+}
