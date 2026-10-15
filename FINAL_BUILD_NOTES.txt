@@ -1,0 +1,17 @@
+CAGE LEGENDS - FINAL BUILD CANDIDATE
+
+Included:
+- Existing host game, controllers, Supabase config and sprite/arena assets preserved.
+- Silent startup splash screen before the lobby.
+- Custom fighter editor with unlimited saved fighter profiles in this browser's localStorage.
+- Eight attributes: Strikes, Kicks, Grappling, Submission, Speed, Stamina, Toughness, Precision.
+- Rating budgets: 60, 70, 80, 90, 100 points. Attribute values are redistributed as you change sliders.
+- Custom fighter cards appear for both player slots; VS HUMAN adds a saved custom-fighter selector for Player 2 in the former AI-difficulty area.
+- Custom Strikes/Kicks affect attack damage; Grappling affects entry chance into a submission; Submission affects tap progress; Speed and Stamina affect movement/stamina.
+- Shared W-L-D ranking remains as in the existing game.
+
+Important:
+- This is a ZIP for manual upload to GitHub Pages; it has not been published to the user's GitHub account.
+- Saved custom fighters use browser localStorage and are stored per browser/device, not synced between devices.
+- Skin/shorts/glove colors are stored and shown in fighter selection accents; full separate per-part sprite recoloring is not implemented in this build.
+- Browser-level gameplay testing was not available here. JavaScript syntax and ZIP integrity were checked.
