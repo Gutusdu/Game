@@ -15,19 +15,20 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
 #join input{width:125px;min-width:0;background:#111820;color:white;border:1px solid #3e4c58;border-radius:7px;text-align:center;text-transform:uppercase;letter-spacing:3px;font-weight:900}
 #join button{background:#17212a;border:1px solid #53616d;color:white;border-radius:7px;padding:0 12px;font-size:11px;font-weight:900}
 #stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 12px 12px}
-#layout{position:relative;width:min(100%,1500px);height:100%;max-height:calc(100dvh - 88px);display:flex;align-items:center;justify-content:center}
+#layout{position:relative;width:min(100%,1500px);height:100%;max-height:calc(100dvh - 88px);aspect-ratio:1728/864;display:flex;align-items:center;justify-content:center}
 #art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .hit{position:absolute;display:block;border:0;background:transparent;border-radius:50%;padding:0;touch-action:none;-webkit-tap-highlight-color:transparent}
-.hit:active{background:#ffffff10}
-#jab{left:2.2%;top:36.5%;width:13.3%;height:24%}
-#hook{left:15.5%;top:36.5%;width:13.3%;height:24%}
-#upper{left:29%;top:36.5%;width:13.3%;height:24%}
-#highkick{left:1.5%;top:61%;width:13.3%;height:24%}
-#lowkick{left:15.3%;top:61%;width:13.3%;height:24%}
-#ground{left:28.8%;top:61%;width:13.3%;height:24%}
-#blockHigh,#blockLow{left:43.1%;width:14%;height:24%;border-radius:16px}
-#blockHigh{top:36.5%}#blockLow{top:61%}
-#joy{left:73.5%;top:36.5%;width:27%;height:49%;border-radius:50%}
+ .hit:active{background:#ffffff10;outline:2px solid #ffffff20;outline-offset:-5px}
+/* Touch-Zonen liegen exakt über den Symbolen in controller_art.png (1728x864). */
+#jab{left:2.4%;top:49.5%;width:10.7%;height:21.5%}
+#hook{left:14.4%;top:49.5%;width:10.7%;height:21.5%}
+#upper{left:25.8%;top:49.5%;width:10.7%;height:21.5%}
+#highkick{left:2.1%;top:72.2%;width:10.7%;height:21.5%}
+#lowkick{left:14.2%;top:72.2%;width:10.7%;height:21.5%}
+#ground{left:25.5%;top:72.2%;width:10.7%;height:21.5%}
+#blockHigh,#blockLow{left:37.7%;width:12.1%;height:21.5%;border-radius:16px}
+#blockHigh{top:49.5%}#blockLow{top:72.2%}
+#joy{left:73.8%;top:50%;width:25.2%;height:45%;border-radius:50%}
 #nub{position:absolute;left:28.5%;top:28.5%;width:43%;height:43%;border-radius:50%;background:transparent;pointer-events:none}
 #statusline{height:16px;flex:0 0 16px;text-align:center;color:#788996;font-size:9px}
 @media (orientation:portrait){
@@ -64,5 +65,5 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script src="controller.js"></script>
+<script src="controller.js?v=20261015-controller-fix2"></script>
 </body></html>

@@ -38,15 +38,10 @@ function actionUp(a){
  if(a==='blockHigh'||a==='blockLow')send({type:'block',down:false,level:a==='blockHigh'?'high':'low'});
 }
 ['jab','hook','upper','highkick','lowkick','ground','blockHigh','blockLow'].forEach(id=>{
- const el=document.getElementById(id);
- const actionName=({upper:'uppercut',highkick:'highKick',lowkick:'lowKick'})[id]||id;
- let pressed=false;
- const down=e=>{e.preventDefault();if(pressed)return;pressed=true;try{el.setPointerCapture(e.pointerId)}catch(_){}el.classList.add('active');actionDown(actionName)};
- const up=e=>{if(e)e.preventDefault();if(!pressed)return;pressed=false;el.classList.remove('active');actionUp(actionName)};
- el.addEventListener('pointerdown',down,{passive:false});
- el.addEventListener('pointerup',up,{passive:false});
- el.addEventListener('pointercancel',up,{passive:false});
- el.addEventListener('lostpointercapture',up,{passive:false});
+ const el=document.getElementById(id),a=({upper:'uppercut',highkick:'highKick',lowkick:'lowKick',blockHigh:'blockHigh',blockLow:'blockLow'})[id]||id;
+ el.addEventListener('pointerdown',e=>{e.preventDefault();el.setPointerCapture?.(e.pointerId);el.classList.add('active');actionDown(a)});
+ const release=e=>{e.preventDefault();el.classList.remove('active');actionUp(a)};
+ el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);
 });
 const joy=document.getElementById('joy'),nub=document.getElementById('nub');let joyActive=false,lastX=0,lastY=0;
 function moveJoy(e){
@@ -63,12 +58,5 @@ joy.addEventListener('pointermove',e=>{if(joyActive){e.preventDefault();moveJoy(
 joy.addEventListener('pointerup',e=>{e.preventDefault();stopJoy()});
 joy.addEventListener('pointercancel',stopJoy);
 
-function releaseAllInputs(){
-  send({type:'block',down:false,level:'high'});
-  send({type:'block',down:false,level:'low'});
-  send({type:'move',x:0,y:0});
-  document.querySelectorAll('.hit').forEach(el=>el.classList.remove('active'));
-}
-window.addEventListener('blur',releaseAllInputs);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseAllInputs()});
-window.addEventListener('pagehide',releaseAllInputs);
+window.addEventListener('blur',()=>{send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});}});
