@@ -1,0 +1,6 @@
+CAGE LEGENDS update
+- Normal damage percentages: Jab 2, Hook 3.5, Uppercut 4, High Kick 7, Low Kick 4, Ground Attack 3.
+- Critical damage multiplier reduced to 1.5x; critical chance growth reduced and capped at 55%.
+- Early knockdowns reduced. Existing low-kick condition at very low body health remains.
+- Fight clock: 3 rounds x 3 minutes, with 3-second breaks. Decision at end of round 3 based on remaining head+body health.
+Upload/replace the repository files from this ZIP. Test on desktop and phone.
