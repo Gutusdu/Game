@@ -1,17 +1,13 @@
-CAGE LEGENDS UPDATE — Multiplayer Names, Fight Stats & Cutscenes
+CAGE LEGENDS — Octagon Movement + AI Difficulty Update
 
-Changes in this package:
-- VS HUMAN lobby now shows a separate PLAYER 2 NAME field instead of hiding the opponent name field.
-- VS AI still labels that field OPPONENT NAME and defaults to RIVAL AI.
-- Human-vs-human still requires both controller slots to connect before START FIGHT enables; player 2 uses controller.html?player=2.
-- Added a short arcade-style pre-fight face-off intro with fighter names and FIGHT title.
-- Added finish overlays for KO, submission and decision, followed by a post-fight statistics screen.
-- Fight statistics track attack attempts, landed strikes, blocks, knockdowns scored and submission attempts, plus remaining stamina and accuracy.
-- Career W-L-D ranking remains saved locally in the host browser/device.
-- KO timer finish now uses the shared finish flow, so career records and the result screen update.
+Changes:
+- Fighter movement is clamped to the playable octagon floor polygon rather than the rectangular canvas bounds. This applies to both fighters and both human players.
+- Added five AI difficulty levels: Easy, Medium, Hard, Ultimate, Impossible.
+- Difficulty affects AI movement speed, attack cadence/aggression, attack accuracy/damage, and defensive reactions.
+- Impossible is intended to be extremely difficult but not mathematically unbeatable; AI decisions still include randomness and the player can still win.
+- AI fights do not create or update career wins/losses/draws and do not affect the ranking. Human-vs-human results continue to count.
 
-Validation:
-- `node --check host.js` passed.
-- `node --check controller.js` passed.
-- Package structure and required files checked.
-- No live two-phone/Supabase session was available, so multiplayer runtime behavior still needs to be tested in the deployed site.
+Validation performed:
+- `node --check host.js`
+- Verified all five difficulty options and octagon clamping are present.
+- No live browser or two-phone multiplayer test was performed.
