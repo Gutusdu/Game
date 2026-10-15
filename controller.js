@@ -43,20 +43,21 @@ function actionUp(a){
  const release=e=>{e.preventDefault();el.classList.remove('active');actionUp(a)};
  el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);
 });
-const joy=document.getElementById('joy'),nub=document.getElementById('nub');let joyActive=false,lastX=0,lastY=0;
+const joy=document.getElementById('joy'),nub=document.getElementById('nub');let joyActive=false,joyPointer=null,lastX=0,lastY=0;
 function moveJoy(e){
  const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
  let dx=(e.clientX-cx)/(r.width*.34),dy=(e.clientY-cy)/(r.height*.34);
  const mag=Math.hypot(dx,dy);if(mag>1){dx/=mag;dy/=mag}
  lastX=Math.round(dx*100)/100;lastY=Math.round(dy*100)/100;
- nub.style.transform=`translate(${dx*42}%,${dy*42}%)`;
+ nub.style.transform=`translate(${dx*112}%,${dy*112}%)`;
  send({type:'move',x:lastX,y:lastY});
 }
 function stopJoy(){joyActive=false;nub.style.transform='';lastX=lastY=0;send({type:'move',x:0,y:0})}
-joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joy.setPointerCapture?.(e.pointerId);moveJoy(e)});
-joy.addEventListener('pointermove',e=>{if(joyActive){e.preventDefault();moveJoy(e)}});
-joy.addEventListener('pointerup',e=>{e.preventDefault();stopJoy()});
-joy.addEventListener('pointercancel',stopJoy);
+joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joyPointer=e.pointerId;try{joy.setPointerCapture(e.pointerId)}catch(_){}moveJoy(e)});
+joy.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}});
+joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefault();stopJoy();joyPointer=null}});
+joy.addEventListener('pointercancel',()=>{stopJoy();joyPointer=null});
+joy.addEventListener('lostpointercapture',()=>{if(joyActive){stopJoy();joyPointer=null}});
 
 window.addEventListener('blur',()=>{send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});}});
