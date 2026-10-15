@@ -1,10 +1,59 @@
-(() => {
-const $=id=>document.getElementById(id),cfg=window.CAGE_CONFIG||{};let client=null,channel=null,connected=false,lastMove=0;const playerSlot=new URLSearchParams(location.search).get('player')==='2'?2:1;const eventName=playerSlot===2?'controller2':'controller';
-function ready(){if(!cfg.SUPABASE_PUBLISHABLE_KEY||cfg.SUPABASE_PUBLISHABLE_KEY.includes('PASTE_')){alert('Open config.js and paste your Supabase publishable key first.');return false}if(!window.supabase){alert('Could not load Supabase client. Check internet.');return false}client=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_PUBLISHABLE_KEY);return true}
-async function connect(){if(!ready())return;const code=$('code').value.trim().toUpperCase();if(code.length<4){alert('Enter the room code shown on the iPad.');return}if(channel)await client.removeChannel(channel);channel=client.channel('cage-room-'+code,{config:{broadcast:{self:false}}});channel.subscribe(status=>{if(status==='SUBSCRIBED'){connected=true;$('status').textContent='P'+playerSlot+' connected: '+code;send({type:'hello'});$('join').classList.add('hidden')}else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')$('status').textContent='Connection error'});}
-$('connect').onclick=connect;$('code').addEventListener('input',e=>e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,''));
-function send(payload){if(connected&&channel)channel.send({type:'broadcast',event:eventName,payload})}
-document.querySelectorAll('[data-act]').forEach(b=>{const a=b.dataset.act;function down(e){e.preventDefault();b.classList.add('active');if(a==='block')send({type:'block',down:true});else if(a==='dodge')send({type:'action',action:'dodge'});else send({type:'action',action:a})}function up(e){e.preventDefault();b.classList.remove('active');if(a==='block')send({type:'block',down:false})}b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('pointerleave',up)});
-const joy=$('joy'),nub=$('nub');let id=null,center={x:0,y:0};function move(e){let dx=e.clientX-center.x,dy=e.clientY-center.y,len=Math.hypot(dx,dy),max=joy.clientWidth*.28,k=len>max?max/len:1;dx*=k;dy*=k;nub.style.transform=`translate(${dx}px,${dy}px)`;let x=dx/max,y=dy/max,now=performance.now();if(now-lastMove>45){send({type:'move',x:Math.abs(x)<.12?0:x,y:Math.abs(y)<.12?0:y});lastMove=now}}
-joy.addEventListener('pointerdown',e=>{e.preventDefault();id=e.pointerId;joy.setPointerCapture(id);const r=joy.getBoundingClientRect();center={x:r.left+r.width/2,y:r.top+r.height/2};move(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===id)move(e)});function end(e){if(e.pointerId!==id)return;id=null;nub.style.transform='translate(0,0)';send({type:'move',x:0,y:0})}joy.addEventListener('pointerup',end);joy.addEventListener('pointercancel',end);
-})();
+let client=null, channel=null, room='', player=1, connected=false;
+const statusEl=document.getElementById('status');
+const codeEl=document.getElementById('code');
+const qs=new URLSearchParams(location.search);
+if(qs.get('player')==='2') player=2;
+function setStatus(t){if(statusEl)statusEl.textContent=t}
+function configValue(){return window.CAGE_CONFIG||window.GAME_CONFIG||window.CONFIG||{}}
+function setupClient(){
+ const c=configValue();
+ const url=c.supabaseUrl||c.SUPABASE_URL||c.url;
+ const key=c.supabaseKey||c.SUPABASE_ANON_KEY||c.key;
+ if(!window.supabase||!url||!key)return false;
+ client=window.supabase.createClient(url,key); return true;
+}
+function send(payload){
+ if(!channel||!connected)return;
+ channel.send({type:'broadcast',event:player===2?'controller2':'controller',payload:{...payload,player,ts:Date.now()}});
+}
+async function connectRoom(){
+ room=(codeEl.value||'').trim().toUpperCase();
+ if(!room){setStatus('ENTER ROOM CODE');return}
+ if(!client&&!setupClient()){setStatus('CONFIG ERROR');return}
+ if(channel){try{await client.removeChannel(channel)}catch(e){} channel=null}
+ connected=false;setStatus('CONNECTING…');
+ channel=client.channel('cage-room-'+room);
+ channel.subscribe(s=>{
+  if(s==='SUBSCRIBED'){connected=true;setStatus(player===2?'CONNECTED · P2':'CONNECTED · P1');send({type:'hello'});}
+  else if(s==='CHANNEL_ERROR'||s==='TIMED_OUT'){connected=false;setStatus('CONNECTION ERROR')}
+ });
+}
+document.getElementById('connect').addEventListener('click',connectRoom);
+codeEl.addEventListener('keydown',e=>{if(e.key==='Enter')connectRoom()});
+function actionDown(a){
+ if(a==='blockHigh'||a==='blockLow')send({type:'block',down:true,level:a==='blockHigh'?'high':'low'});
+ else send({type:'action',action:a});
+}
+function actionUp(a){
+ if(a==='blockHigh'||a==='blockLow')send({type:'block',down:false,level:a==='blockHigh'?'high':'low'});
+}
+['jab','hook','upper','highkick','lowkick','ground','blockHigh','blockLow'].forEach(id=>{
+ const el=document.getElementById(id),a=({upper:'uppercut',highkick:'highKick',lowkick:'lowKick',blockHigh:'blockHigh',blockLow:'blockLow'})[id]||id;
+ el.addEventListener('pointerdown',e=>{e.preventDefault();el.setPointerCapture?.(e.pointerId);el.classList.add('active');actionDown(a)});
+ const release=e=>{e.preventDefault();el.classList.remove('active');actionUp(a)};
+ el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);el.addEventListener('lostpointercapture',release);
+});
+const joy=document.getElementById('joy'),nub=document.getElementById('nub');let joyActive=false,lastX=0,lastY=0;
+function moveJoy(e){
+ const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+ let dx=(e.clientX-cx)/(r.width*.34),dy=(e.clientY-cy)/(r.height*.34);
+ const mag=Math.hypot(dx,dy);if(mag>1){dx/=mag;dy/=mag}
+ lastX=Math.round(dx*100)/100;lastY=Math.round(dy*100)/100;
+ nub.style.transform=`translate(${dx*42}%,${dy*42}%)`;
+ send({type:'move',x:lastX,y:lastY});
+}
+function stopJoy(){joyActive=false;nub.style.transform='';lastX=lastY=0;send({type:'move',x:0,y:0})}
+joy.addEventListener('pointerdown',e=>{e.preventDefault();joyActive=true;joy.setPointerCapture?.(e.pointerId);moveJoy(e)});
+joy.addEventListener('pointermove',e=>{if(joyActive){e.preventDefault();moveJoy(e)}});
+joy.addEventListener('pointerup',e=>{e.preventDefault();stopJoy()});
+joy.addEventListener('pointercancel',stopJoy);
