@@ -1,14 +1,20 @@
-# Dein Überraschungs-Spiel
+CAGE LEGENDS — Update 3
+=======================
+Retro-MMA-Karriere für iPhone / Safari / GitHub Pages.
 
-## Auf dem iPhone veröffentlichen (kostenlos)
-1. Entpacke diese ZIP-Datei in der Dateien-App auf deinem iPad/iPhone.
-2. Öffne dein GitHub-Repository im Browser.
-3. Tippe auf **Add file → Upload files**.
-4. Lade alle enthaltenen Dateien hoch (index.html, manifest.json, sw.js, icon-192.png, icon-512.png). Falls die Dateien in einem Ordner liegen, lade die Dateien selbst hoch, nicht nur den Ordner.
-5. Tippe auf **Commit changes**.
-6. Im Repository: **Settings → Pages**.
-7. Bei **Build and deployment** wähle **Deploy from a branch**, Branch **main**, Ordner **/(root)**, dann **Save**.
-8. Warte kurz und öffne die unter **Settings → Pages** angezeigte Website in Safari.
-9. In Safari: **Teilen → Zum Home-Bildschirm**. Aktiviere bei Bedarf „Als Web-App öffnen“ und tippe auf **Hinzufügen**.
+NEU:
+- Sichtbarere Pixel-Fighter-Animationen: Jab, Cross, Hook, Kick, Knie, Treffer-Reaktion
+- Leichtes Bildschirm-Ruckeln und Treffer-Feedback
+- Touch-freundlichere Kampftasten
+- Kombos per Knopfdruck: Jab-Cross und Jab-Cross-Hook
+- Eingaben werden kurz gepuffert, damit schnelle Taps nicht einfach verloren gehen
+- Block halten und Ausweichen bleiben als Touch-Aktionen verfügbar
 
-Das Repository muss bei GitHub Free öffentlich sein, damit GitHub Pages kostenlos veröffentlicht. Die veröffentlichte Seite ist öffentlich erreichbar. Der Spielstand wird lokal auf dem Gerät gespeichert; er wird nicht zwischen Geräten synchronisiert.
+INSTALLATION:
+1. ZIP entpacken.
+2. Im bestehenden GitHub-Repository die Dateien hochladen und gleichnamige Dateien ersetzen.
+3. Commit changes.
+4. GitHub Pages lädt die Aktualisierung nach kurzer Zeit aus.
+5. Auf dem iPhone Safari ggf. Seite neu laden. Bei hartnäckigem alten Stand: Tab schließen und erneut öffnen.
+
+Das Spiel ist ein eigenständiger Retro-Pixel-Prototyp. Grafiken und Kampfphysik sind vereinfacht.
