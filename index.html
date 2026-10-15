@@ -13,11 +13,11 @@
 <button class="fighterpick" data-roster="player" data-id="tank">TANK<span>Power • Slower movement</span></button>
 <button class="fighterpick" data-roster="player" data-id="flash">FLASH<span>Speed • Lighter hits</span></button>
 <button class="fighterpick" data-roster="player" data-id="viper">VIPER<span>Counter striker • Technical</span></button></div>
-<div class="picklabel" id="opponentLabel">OPPONENT</div><div class="roster" id="enemyRoster">
+<div class="picklabel" id="opponentLabel">OPPONENT FIGHTER</div><div class="roster" id="enemyRoster">
 <button class="fighterpick" data-roster="enemy" data-id="tank">TANK<span>Power puncher</span></button>
 <button class="fighterpick selected" data-roster="enemy" data-id="viper">VIPER<span>Technical counter fighter</span></button>
 <button class="fighterpick" data-roster="enemy" data-id="flash">FLASH<span>Fast and mobile</span></button>
-<button class="fighterpick" data-roster="enemy" data-id="random">RANDOM<span>Surprise me</span></button></div>
+<button class="fighterpick" data-roster="enemy" data-id="blaze">BLAZE<span>Balanced all-rounder</span></button><button class="fighterpick" data-roster="enemy" data-id="random">RANDOM<span>Surprise me (AI only)</span></button></div>
 <div class="room" id="roomCode" style="display:none"></div><p id="lobbyStatus" class="small">Choose a mode, then create a room.</p>
 <div class="picklabel">CAREER RANKING · W-L-D</div><div id="rankList" style="text-align:left;background:#0c1218;border:1px solid #354653;border-radius:8px;padding:8px;margin:6px 0 12px;max-height:110px;overflow:auto"><div class="small">No fight records yet.</div></div><div class="actions"><button class="btn" id="createRoomBtn">CREATE ROOM</button><button class="btn primary" id="startFightBtn" disabled>START FIGHT</button></div>
 <p class="small">For VS HUMAN, player 2 opens controller.html?player=2 on their phone. On the controller, hold LEFT HAND BLOCK to defend.</p></div></div><div class="overlay hidden" id="resultsOverlay"><div class="panel"><h1 id="resultTitle">FIGHT OVER</h1><p id="resultMethod">RESULT</p><div id="resultMatchup" style="display:flex;justify-content:space-around;gap:12px;margin:14px 0;font-weight:1000"></div><div id="resultStats" style="text-align:left"></div><div class="actions" style="margin-top:16px"><button class="btn" id="resultMenuBtn">MAIN MENU</button><button class="btn primary" id="resultRematchBtn">REMATCH</button></div></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="host.js"></script></body></html>
