@@ -1,20 +1,12 @@
-CAGE LEGENDS — Update 3
-=======================
-Retro-MMA-Karriere für iPhone / Safari / GitHub Pages.
+CAGE LEGENDS V4 — DIRECT CONTROL + RANKING
+==========================================
+Neu: virtueller Joystick mit direkter Bewegung/Fußarbeit, Distanzänderung während des Kampfes, direkte Aktionsbuttons, Ranglistenansicht, Rivalenbereich, Rangpunkte, Siegquote und sichtbarer eigener Rang.
 
-NEU:
-- Sichtbarere Pixel-Fighter-Animationen: Jab, Cross, Hook, Kick, Knie, Treffer-Reaktion
-- Leichtes Bildschirm-Ruckeln und Treffer-Feedback
-- Touch-freundlichere Kampftasten
-- Kombos per Knopfdruck: Jab-Cross und Jab-Cross-Hook
-- Eingaben werden kurz gepuffert, damit schnelle Taps nicht einfach verloren gehen
-- Block halten und Ausweichen bleiben als Touch-Aktionen verfügbar
-
-INSTALLATION:
+INSTALLATION AUF DEM IPAD:
 1. ZIP entpacken.
-2. Im bestehenden GitHub-Repository die Dateien hochladen und gleichnamige Dateien ersetzen.
-3. Commit changes.
-4. GitHub Pages lädt die Aktualisierung nach kurzer Zeit aus.
-5. Auf dem iPhone Safari ggf. Seite neu laden. Bei hartnäckigem alten Stand: Tab schließen und erneut öffnen.
+2. Im bisherigen GitHub-Repository Add file → Upload files.
+3. Alle Dateien aus diesem Ordner hochladen und gleichnamige Dateien ersetzen.
+4. Commit changes.
+5. GitHub Pages in Safari neu laden. Falls ein alter Stand angezeigt wird, Tab schließen und erneut öffnen.
 
-Das Spiel ist ein eigenständiger Retro-Pixel-Prototyp. Grafiken und Kampfphysik sind vereinfacht.
+Hinweis: Die Rangliste ist in dieser kostenlosen Offline-Version lokal simuliert; andere echte Spieler können ohne Server/Online-Datenbank nicht live miteinander verglichen werden.
