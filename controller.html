@@ -17,19 +17,25 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
 #stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 12px 12px}
 #layout{position:relative;width:min(100%,1500px);height:100%;max-height:calc(100dvh - 88px);aspect-ratio:1728/864;display:flex;align-items:center;justify-content:center}
 #art{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
+#fighterCard{position:absolute;left:51%;top:5%;width:21%;height:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;z-index:4;pointer-events:none;text-align:center;text-shadow:0 2px 4px #000;overflow:hidden}
+#fighterCorner{font-size:clamp(8px,1.25vw,15px);font-weight:1000;letter-spacing:2px;color:#ff6675}
+#fighterName{max-width:100%;font-size:clamp(12px,2.15vw,27px);font-weight:1000;letter-spacing:1px;line-height:1.05;overflow-wrap:anywhere;color:#fff}
+#fighterRecord{font-size:clamp(9px,1.35vw,16px);font-weight:900;letter-spacing:2px;color:#cbd5df}
+#fighterRecord span{color:#ff6675}
+#fighterTag{font-size:clamp(6px,.8vw,10px);font-weight:800;letter-spacing:2px;color:#91a3b1}
 .hit{position:absolute;display:block;border:0;background:transparent;border-radius:50%;padding:0;touch-action:none;-webkit-tap-highlight-color:transparent}
-.hit:active{background:#ffffff10;outline:2px solid #ffffff20;outline-offset:-5px}
-#jab{left:2.2%;top:36.5%;width:13.3%;height:24%}
-#hook{left:15.5%;top:36.5%;width:13.3%;height:24%}
-#upper{left:29%;top:36.5%;width:13.3%;height:24%}
-#highkick{left:1.5%;top:61%;width:13.3%;height:24%}
-#lowkick{left:15.3%;top:61%;width:13.3%;height:24%}
-#ground{left:28.8%;top:61%;width:13.3%;height:24%}
-#blockHigh,#blockLow{left:43.1%;width:14%;height:24%;border-radius:16px}
-#blockHigh{top:36.5%}#blockLow{top:61%}
-#joy{left:73.5%;top:36.5%;width:27%;height:49%;border-radius:50%}
-#nub{position:absolute;left:28.5%;top:28.5%;width:43%;height:43%;border-radius:50%;background:transparent;pointer-events:none}
-#statusline{height:16px;flex:0 0 16px;text-align:center;color:#788996;font-size:9px}
+ .hit:active{background:#ffffff10;outline:2px solid #ffffff20;outline-offset:-5px}
+#jab{left:2.4%;top:49.5%;width:10.7%;height:21.5%}
+#hook{left:14.4%;top:49.5%;width:10.7%;height:21.5%}
+#upper{left:25.8%;top:49.5%;width:10.7%;height:21.5%}
+#highkick{left:2.1%;top:72.2%;width:10.7%;height:21.5%}
+#lowkick{left:14.2%;top:72.2%;width:10.7%;height:21.5%}
+#ground{left:25.5%;top:72.2%;width:10.7%;height:21.5%}
+#blockHigh,#blockLow{left:37.7%;width:12.1%;height:21.5%;border-radius:16px}
+#blockHigh{top:49.5%}#blockLow{top:72.2%}
+#joy{left:73.8%;top:50%;width:25.2%;height:45%;border-radius:50%;background:radial-gradient(circle at 50% 50%,#1a2731 0 43%,#536675 44% 48%,#111820 49% 58%,#344957 59% 64%,#0a1015 65% 100%);border:3px solid #8ca0ad;box-shadow:inset 0 0 0 4px #17232c,0 4px 10px #0009;touch-action:none;pointer-events:auto;z-index:5}
+#nub{position:absolute;left:28.5%;top:28.5%;width:43%;height:43%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8ea4b3 0%,#526a7b 28%,#263946 62%,#111a21 100%);border:3px solid #b8c8d2;box-shadow:0 4px 8px #000b,inset 0 2px 3px #ffffff55;pointer-events:none;will-change:transform}
+#chargeHud{position:absolute;left:2%;top:2%;width:35%;z-index:8;color:#ffd166;font-size:10px;font-weight:1000;text-shadow:0 2px 4px #000}#chargeTrack{height:8px;background:#18232c;border:1px solid #8795a0;border-radius:8px;overflow:hidden;margin-top:3px}#chargeFill{height:100%;width:0;background:linear-gradient(90deg,#f7a82a,#fff07a)}#statusline{height:16px;flex:0 0 16px;text-align:center;color:#788996;font-size:9px}
 @media (orientation:portrait){
  #top{height:25px;flex-basis:25px}
  #join{height:38px;flex-basis:38px}
@@ -37,11 +43,23 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
  #layout{width:100%;height:auto;aspect-ratio:1728/864;max-height:calc(100dvh - 88px)}
  #statusline{height:14px;flex-basis:14px}
 }
-@media (max-height:430px) and (orientation:landscape){
- #top{height:22px;flex-basis:22px}#join{height:30px;flex-basis:30px}
- #stage{padding:0 8px 2px}#layout{max-height:calc(100dvh - 66px)}
- #statusline{height:12px;flex-basis:12px}
+@media (orientation:landscape){
+ #top{height:22px;flex-basis:22px;padding:0 10px;font-size:10px}
+ #join{height:30px;flex-basis:30px;padding:2px 8px;gap:6px}
+ #join input{width:110px;font-size:11px}
+ #join button{padding:0 10px}
+ #stage{padding:0 8px 2px}
+ /* Keep the entire 2:1 controller art visible and keep hit zones aligned to it. */
+ #layout{width:min(100%,calc((100dvh - 66px)*2));height:auto;max-height:calc(100dvh - 66px);aspect-ratio:1728/864;flex:0 1 auto}
+ #art{width:100%;height:100%;object-fit:fill}
+ #statusline{height:12px;flex-basis:12px;font-size:8px}
 }
+@media (orientation:landscape) and (max-height:430px){
+ #top{height:18px;flex-basis:18px}
+ #join{height:26px;flex-basis:26px}
+ #layout{width:min(100%,calc((100dvh - 56px)*2));max-height:calc(100dvh - 56px)}
+}
+
 </style>
 </head>
 <body>
@@ -49,7 +67,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
  <header id="top">CAGE <span>LEGENDS · CONTROLLER</span><span id="status">NOT CONNECTED</span></header>
  <div id="join"><input id="code" maxlength="5" placeholder="ROOM CODE" autocomplete="off"><button id="connect">CONNECT</button></div>
  <main id="stage"><div id="layout">
-  <img id="art" src="controller_art.png" alt="CAGE LEGENDS game controller">
+  <img id="art" src="controller_art.png" alt="CAGE LEGENDS game controller"><div id="chargeHud">SUBMISSION ULTIMATE <span id="chargeText">0%</span><div id="chargeTrack"><div id="chargeFill"></div></div></div>
+ <div id="fighterCard"><div id="fighterCorner">RED CORNER</div><div id="fighterName">FIGHTER</div><div id="fighterRecord"><span>0</span> - <span>0</span> - <span>0</span></div><div id="fighterTag">W · L · D</div></div>
   <button class="hit" id="jab" aria-label="Jab"></button>
   <button class="hit" id="hook" aria-label="Hook"></button>
   <button class="hit" id="upper" aria-label="Uppercut"></button>
@@ -62,7 +81,9 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
  </div></main>
  <div id="statusline">Hold block to guard · Landscape recommended</div>
 </div>
+<div id="koGame" style="display:none;position:fixed;inset:0;z-index:99;background:radial-gradient(circle,#3b1018f5,#080b0ff8);align-items:center;justify-content:center;flex-direction:column;touch-action:manipulation"><div style="font-weight:1000;font-size:clamp(22px,5vw,42px);color:#ff6474;letter-spacing:2px">GET BACK UP!</div><div id="koCount" style="font-size:clamp(18px,4vw,28px);font-weight:900;margin:8px">0 / 10</div><div style="color:#ddd;font-size:12px;margin-bottom:8px">TAP THE BUTTON BEFORE IT MOVES</div><button id="koTarget" style="position:absolute;left:40%;top:45%;width:clamp(90px,20vw,150px);height:clamp(90px,20vw,150px);border-radius:50%;border:4px solid #fff;background:linear-gradient(#ff5968,#a00d24);color:white;font-size:20px;font-weight:1000;box-shadow:0 0 25px #ff354f;touch-action:manipulation">TAP!</button></div>
+<div id="groundPoundGame" style="display:none;position:fixed;inset:0;z-index:101;background:radial-gradient(circle,#382716f5,#05090ff8);align-items:center;justify-content:center;flex-direction:column;touch-action:manipulation;text-align:center;padding:18px"><div style="font-weight:1000;font-size:clamp(22px,5vw,42px);color:#ffd166">GROUND AND POUND</div><div id="groundRole" style="font-size:13px;color:#fff;font-weight:900;margin:10px">TAP TO ATTACK / ESCAPE</div><div id="groundProgress" style="font-size:14px;color:#d6e5ed;margin:8px">0 / 5 strikes · defender escapes at 3</div><button id="groundButton" style="width:min(48vw,260px);height:min(48vw,260px);border-radius:50%;border:7px solid #fff;background:radial-gradient(circle at 35% 25%,#ffe58a,#d78a00 60%,#6b3400);color:#111;font-size:clamp(28px,6vw,54px);font-weight:1000;touch-action:manipulation">TAP!</button><div style="margin-top:15px;color:#fff;font-weight:900;font-size:12px">ATTACKER: 5 TAPS MAX · DEFENDER: 3 TAPS TO ESCAPE</div></div><div id="submissionGame" style="display:none;position:fixed;inset:0;z-index:100;background:radial-gradient(circle,#16384bf5,#05090ff8);align-items:center;justify-content:center;flex-direction:column;touch-action:manipulation;text-align:center;padding:18px"><div id="submissionTitle" style="font-weight:1000;font-size:clamp(22px,5vw,42px);color:#ffd166;letter-spacing:1px">ESCAPE! TAP FAST!</div><div id="submissionRole" style="font-size:13px;color:#d6e5ed;font-weight:900;margin:8px">YOU ARE DEFENDING</div><div style="font-size:12px;color:#a8c4d2;margin:4px 0 20px">FIRST TO 60 WINS · DEFENDER STARTS AT 20</div><button id="submissionButton" style="width:min(48vw,260px);height:min(48vw,260px);border-radius:50%;border:7px solid #fff;background:radial-gradient(circle at 35% 25%,#ffe58a,#d78a00 60%,#6b3400);color:#111;font-size:clamp(28px,6vw,54px);font-weight:1000;box-shadow:0 0 35px #ffc83d99;touch-action:manipulation;user-select:none;-webkit-user-select:none">TAP!</button><div style="margin-top:20px;color:#fff;font-weight:900;font-size:12px">TAP THE BUTTON AS FAST AS YOU CAN</div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script src="controller.js"></script>
+<script src="controller.js?v=20261016-fightercard1"></script>
 </body></html>
