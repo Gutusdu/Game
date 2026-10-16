@@ -25,7 +25,20 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
 #fighterTag{font-size:clamp(6px,.8vw,10px);font-weight:800;letter-spacing:2px;color:#91a3b1}
 .hit{position:absolute;display:block;border:0;background:transparent;border-radius:50%;padding:0;touch-action:none;-webkit-tap-highlight-color:transparent}
  .hit:active{background:#ffffff10;outline:2px solid #ffffff20;outline-offset:-5px}
-/* Touch-Zonen liegen exakt über den Symbolen in controller_art.png (1728x864). */
+/* PRO-Touch-Zonen liegen über der bisherigen Controller-Grafik. */
+#easyControls{display:none;position:absolute;inset:0;z-index:7;pointer-events:none}
+.easyBtn{position:absolute;right:5%;width:19%;aspect-ratio:1;border-radius:50%;border:4px solid #fff;color:#fff;font-weight:1000;font-size:clamp(14px,3vw,28px);box-shadow:0 5px 14px #000b,inset 0 0 0 4px #ffffff20;touch-action:none;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.easyBtn:active{transform:scale(.95);filter:brightness(1.25)}
+#easyStrike{top:16%;background:radial-gradient(circle at 35% 25%,#ff7777,#c91d30 65%,#650a17);border-color:#ffb0b7}
+#easyKick{top:40%;background:radial-gradient(circle at 35% 25%,#79c5ff,#1264c6 65%,#092a63);border-color:#a6d8ff}
+#easyUltimate{top:64%;background:radial-gradient(circle at 35% 25%,#ffe98b,#c78a00 65%,#5b3900);border-color:#ffe8a0;color:#211600}
+#easyUltimate.ready{box-shadow:0 0 0 4px #ffd166,0 0 24px #ffca3a;animation:ultPulse 1s infinite alternate}
+@keyframes ultPulse{from{filter:brightness(1)}to{filter:brightness(1.35)}}
+#easyCharge{position:absolute;right:3%;bottom:5%;width:25%;color:#ffd166;font-size:clamp(9px,1.8vw,15px);font-weight:1000;text-align:center;text-shadow:0 2px 4px #000}
+#easyChargeTrack{height:10px;border:1px solid #fff;border-radius:8px;overflow:hidden;background:#121820;margin-top:4px}
+#easyChargeFill{height:100%;width:0;background:linear-gradient(90deg,#f4a900,#fff39b)}
+#easyModeLabel{position:absolute;left:4%;top:4%;font-size:clamp(11px,2vw,17px);font-weight:1000;letter-spacing:2px;color:#fff;text-shadow:0 2px 5px #000}
+
 #jab{left:2.4%;top:49.5%;width:10.7%;height:21.5%}
 #hook{left:14.4%;top:49.5%;width:10.7%;height:21.5%}
 #upper{left:25.8%;top:49.5%;width:10.7%;height:21.5%}
@@ -69,6 +82,13 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0f;tou
  <div id="join"><input id="code" maxlength="5" placeholder="ROOM CODE" autocomplete="off"><button id="connect">CONNECT</button></div>
  <main id="stage"><div id="layout">
   <img id="art" src="controller_art.png" alt="CAGE LEGENDS game controller"><button id="modeToggle" type="button">MODE: PRO</button><div id="chargeHud">SUBMISSION ULTIMATE <span id="chargeText">0%</span><div id="chargeTrack"><div id="chargeFill"></div></div></div>
+  <div id="easyControls" aria-label="Easy Mode Touch Controller">
+   <div id="easyModeLabel">EASY MODE</div>
+   <button class="easyBtn" id="easyStrike" aria-label="Schlag">✊<small style="display:block;font-size:.42em;letter-spacing:1px">SCHLAG</small></button>
+   <button class="easyBtn" id="easyKick" aria-label="Tritt">➤<small style="display:block;font-size:.42em;letter-spacing:1px">TRITT</small></button>
+   <button class="easyBtn" id="easyUltimate" aria-label="Submission Ultimate">★<small style="display:block;font-size:.36em;letter-spacing:.5px">ULTI</small></button>
+   <div id="easyCharge">ULTIMATE <span id="easyChargeText">0%</span><div id="easyChargeTrack"><div id="easyChargeFill"></div></div></div>
+  </div>
   <div id="fighterCard"><div id="fighterCorner">RED CORNER</div><div id="fighterName">FIGHTER</div><div id="fighterRecord"><span>0</span> - <span>0</span> - <span>0</span></div><div id="fighterTag">W · L · D</div></div>
   <button class="hit" id="jab" aria-label="Jab"></button>
   <button class="hit" id="hook" aria-label="Hook"></button>
