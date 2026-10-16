@@ -4,10 +4,13 @@ const codeEl=document.getElementById('code');
 const qs=new URLSearchParams(location.search);
 if(qs.get('player')==='2') player=2;
 function setStatus(t){if(statusEl)statusEl.textContent=t}
-let koState=null,koTimer=null,submissionState=null;
+let koState=null,koTimer=null,submissionState=null,groundState=null,controlMode='pro',ultimateCharge=0;
 function showKO(payload){koState={hits:0,total:10,difficulty:Math.max(.28,Math.min(1,payload.difficulty||.3)),active:true};const el=document.getElementById('koGame');el.style.display='flex';nextKOButton();}
 function nextKOButton(){if(!koState||!koState.active)return;const b=document.getElementById('koTarget');b.style.left=(8+Math.random()*74)+'%';b.style.top=(12+Math.random()*68)+'%';b.textContent=['TAP!','HIT!','GO!','WAKE!'][Math.floor(Math.random()*4)];const life=Math.max(360,1450*(1-koState.difficulty));clearTimeout(koTimer);koTimer=setTimeout(()=>{if(koState&&koState.active)nextKOButton()},life);}
 function tapKO(){if(!koState||!koState.active)return;koState.hits++;document.getElementById('koCount').textContent=koState.hits+' / 10';if(koState.hits>=10){koState.active=false;clearTimeout(koTimer);document.getElementById('koGame').style.display='none';send({type:'koescape'});setStatus('YOU GOT UP!');}else nextKOButton();}
+function showGroundPound(payload){groundState={active:true,attacker:payload.attacker,defender:payload.defender};document.getElementById('groundPoundGame').style.display='flex';updateGroundPound(payload);}
+function updateGroundPound(payload){const attack=payload.hits||payload.attack||0,defend=payload.defend||0;document.getElementById('groundRole').textContent=payload.attacker===player?'YOU ARE ATTACKING':'ESCAPE THE GROUND ATTACK';document.getElementById('groundButton').textContent=payload.attacker===player?'STRIKE':'ESCAPE';document.getElementById('groundProgress').textContent=attack+' / 5 strikes · '+defend+' / 3 escape taps';}
+function hideGroundPound(payload){groundState=null;document.getElementById('groundPoundGame').style.display='none';setStatus(payload.escaped?'GROUND ESCAPED':'GROUND AND POUND ENDED');}
 function showSubmission(payload){koState=null;clearTimeout(koTimer);document.getElementById('koGame').style.display='none';submissionState={active:true};const el=document.getElementById('submissionGame');el.style.display='flex';document.getElementById('submissionTitle').textContent=payload.attacker===player?'FINISH THE SUBMISSION!':'ESCAPE! TAP FAST!';document.getElementById('submissionRole').textContent=payload.attacker===player?'YOU ARE THE ATTACKER':'YOU ARE DEFENDING';document.getElementById('submissionButton').textContent='TAP!';}
 function hideSubmission(payload){submissionState=null;document.getElementById('submissionGame').style.display='none';setStatus(payload.attackerWins?(payload.attacker===player?'SUBMISSION WIN':'SUBMISSION LOST'):(payload.defender===player?'ESCAPED!':'SUBMISSION FAILED'));}
 function configValue(){return window.CAGE_CONFIG||window.GAME_CONFIG||window.CONFIG||{}}
@@ -33,6 +36,9 @@ async function connectRoom(){
  channel.on('broadcast',{event:'ko'},({payload})=>{if(payload&&payload.player===player)showKO(payload)});
  channel.on('broadcast',{event:'submission'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player))showSubmission(payload)});
  channel.on('broadcast',{event:'submissionEnd'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player))hideSubmission(payload)});
+ channel.on('broadcast',{event:'groundPound'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player)){if(!groundState)showGroundPound(payload);else updateGroundPound(payload)}});
+ channel.on('broadcast',{event:'groundPoundEnd'},({payload})=>{if(payload&&[payload.attacker,payload.defender].includes(player))hideGroundPound(payload)});
+ channel.on('broadcast',{event:'ultimateCharge'},({payload})=>{if(payload&&payload.player===player){ultimateCharge=payload.charge||0;document.getElementById('chargeFill').style.width=ultimateCharge+'%';document.getElementById('chargeText').textContent=Math.floor(ultimateCharge)+'%';document.getElementById('ground').classList.toggle('ready',ultimateCharge>=100)}});
  channel.on('broadcast',{event:'koend'},({payload})=>{if(payload&&payload.player===player){if(koState)koState.active=false;document.getElementById('koGame').style.display='none';setStatus('KNOCKOUT · FIGHT OVER')}});
  channel.subscribe(s=>{
   if(s==='SUBSCRIBED'){connected=true;setStatus(player===2?'CONNECTED · P2':'CONNECTED · P1');send({type:'hello'});}
@@ -43,7 +49,7 @@ document.getElementById('connect').addEventListener('click',connectRoom);
 codeEl.addEventListener('keydown',e=>{if(e.key==='Enter')connectRoom()});
 function actionDown(a){
  if(a==='blockHigh'||a==='blockLow')send({type:'block',down:true,level:a==='blockHigh'?'high':'low'});
- else send({type:'action',action:a});
+ else if(controlMode==='easy'&&a==='jab')send({type:'action',action:'easyStrike'});else if(controlMode==='easy'&&a==='highKick')send({type:'action',action:'easyKick'});else if(controlMode==='easy'&&a==='ground')send({type:'action',action:'ultimate'});else send({type:'action',action:a});
 }
 function actionUp(a){
  if(a==='blockHigh'||a==='blockLow')send({type:'block',down:false,level:a==='blockHigh'?'high':'low'});
@@ -70,6 +76,8 @@ joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer){e.preventDefau
 joy.addEventListener('pointercancel',()=>{stopJoy();joyPointer=null});
 joy.addEventListener('lostpointercapture',()=>{if(joyActive){stopJoy();joyPointer=null}});
 
+document.getElementById('modeToggle').addEventListener('click',()=>{controlMode=controlMode==='pro'?'easy':'pro';document.getElementById('modeToggle').textContent='MODE: '+controlMode.toUpperCase();document.getElementById('hook').style.display=controlMode==='easy'?'none':'';document.getElementById('upper').style.display=controlMode==='easy'?'none':'';document.getElementById('lowkick').style.display=controlMode==='easy'?'none':'';document.getElementById('blockHigh').style.display=controlMode==='easy'?'none':'';document.getElementById('blockLow').style.display=controlMode==='easy'?'none':'';document.getElementById('ground').setAttribute('aria-label',controlMode==='easy'?'Submission ultimate':'Ground and pound');document.getElementById('statusline').textContent=controlMode==='easy'?'EASY: MOVE · STRIKE · KICK · ULTIMATE':'PRO: FULL CONTROLS';});
+document.getElementById('groundButton').addEventListener('pointerdown',e=>{e.preventDefault();if(groundState&&groundState.active)send({type:'groundTap'});});
 document.getElementById('koTarget').addEventListener('pointerdown',e=>{e.preventDefault();tapKO()});document.getElementById('submissionButton').addEventListener('pointerdown',e=>{e.preventDefault();if(submissionState&&submissionState.active)send({type:'submitTap'});});
 window.addEventListener('blur',()=>{send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});send({type:'move',x:0,y:0});}});
