@@ -81,6 +81,10 @@ document.getElementById('modeToggle').addEventListener('click',()=>{controlMode=
 document.getElementById('easyStrike').addEventListener('pointerdown',e=>{e.preventDefault();send({type:'action',action:'easyStrike'});});
 document.getElementById('easyKick').addEventListener('pointerdown',e=>{e.preventDefault();send({type:'action',action:'easyKick'});});
 document.getElementById('easyUltimate').addEventListener('pointerdown',e=>{e.preventDefault();if(ultimateCharge>=100)send({type:'action',action:'ultimate'});else setStatus('ULTIMATE '+Math.floor(ultimateCharge)+'%');});
+const easyBlock=document.getElementById('easyBlock');
+easyBlock.addEventListener('pointerdown',e=>{e.preventDefault();try{easyBlock.setPointerCapture(e.pointerId)}catch(_){}easyBlock.classList.add('active');send({type:'block',down:true,level:'high'});send({type:'block',down:true,level:'low'});});
+function releaseEasyBlock(e){if(e)e.preventDefault();easyBlock.classList.remove('active');send({type:'block',down:false,level:'high'});send({type:'block',down:false,level:'low'});}
+easyBlock.addEventListener('pointerup',releaseEasyBlock);easyBlock.addEventListener('pointercancel',releaseEasyBlock);easyBlock.addEventListener('lostpointercapture',releaseEasyBlock);
 applyControlMode();
 document.getElementById('groundButton').addEventListener('pointerdown',e=>{e.preventDefault();if(groundState&&groundState.active)send({type:'groundTap'});});
 document.getElementById('koTarget').addEventListener('pointerdown',e=>{e.preventDefault();tapKO()});document.getElementById('submissionButton').addEventListener('pointerdown',e=>{e.preventDefault();if(submissionState&&submissionState.active)send({type:'submitTap'});});
